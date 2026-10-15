@@ -1,0 +1,28 @@
+
+1. WHO
+   3 agents acted in run fault-1791211739-11dd2a: haiec-agent, it-resolution-agent, network-resolution-agent. Every one of them reached the gateway as the same identity, ServiceIdentity::"bootstrap-key" (24 of 24 authorization decisions). No end-user or operator identity is recorded in this evidence, so who started the run on whose behalf cannot be shown.
+   finding: ATTRIBUTION_LIMIT: the platform sees one shared caller; agents are told apart only by the actor name each agent writes into the ledger, which the platform does not verify
+
+2. WHAT
+   Models: haiec-nemotron-super (3 calls, 6,264 tokens), nemotron-nano-9b (2 calls, 11,166 tokens), nemotron-super-120b (4 calls, 16,425 tokens). Tools: modaas-docs (2 calls), runbook-lookup (1 call), evidence-lookup (0 calls), network-twin (3 calls), customer-records (0 calls). 8 of 8 assets resolve to an Approved governed config with a registry record.
+
+3. WAS_IT_AUTHORIZED
+   The policy decision point ruled on 24 requests for this run: 24 of 24 decisions were ALLOW and 0 DENY. Model calls were authorized under model-haiec-nemotron-super v643199, model-nemotron-nano-9b v206037, model-nemotron-super-120b v206372; evaluated by modaas-pdp (Cedar), asked by the gateway's modaas-authz external-authorization policy, failureMode FailClosed (a PDP outage refuses every call). Every model call at the gateway has an ALLOW decision before it.
+
+4. WHO_APPROVED
+   11 of 11 assets in the chain carry an approver and attestation: cooshal@team approved 1; ec2-user@team approved 5; system-admin approved 4; ec2-user@workshop approved 1.
+   finding: APPROVER_IS_FREE_TEXT: the approver is an annotation anyone who can edit the config can write; it records a claim, not a verified identity
+
+5. INTEGRITY
+   6 of 6 integrity checks passed. Checked: ledger sequence and time order, each agent's step shape, and that the ledger agrees with two systems it does not control: the gateway (call count and every call's token counts) and the decision log (every model result's action id). A deleted, reordered or edited record, or an edited token count, would break one of these.
+   finding: LEDGER_NOT_TAMPER_PROOF: ledger writes need one shared token and records carry no hash chain, so these checks catch a record that disagrees with the gateway or the decision log, not a consistent forgery by a token holder
+   [ok] ledger seq strictly increasing: 29 records
+   [ok] ledger timestamps non-decreasing: 29 records
+   [ok] every agent has intent, invocation and result-inspection: 3 agents
+   [ok] model requests recorded == calls executed at the gateway: 9 recorded, 9 executed
+   [ok] agent-reported tokens == gateway tokens: 9 of 9 calls agree
+   [ok] result action ids found in the decision log: 9 of 9
+
+6. RECONSTRUCT
+   Run fault-1791211739-11dd2a on trace 84b691261b62489783b730177546551e, 62 timestamped events from three systems (ledger, decision log, gateway). haiec-agent (14:49:03 to 14:49:09): 3 model calls, 6,264 tokens, ended with disposition auto-resolve. it-resolution-agent (14:49:14 to 14:49:32): 2 model calls, 11,166 tokens, ended with disposition auto-resolve. network-resolution-agent (14:49:36 to 14:49:44): 4 model calls, 16,425 tokens, ended with disposition auto-resolve.
+   finding: NEGOTIATION_NOT_RECORDED: the agents handed work on in sequence but no negotiation record exists between them; the reference scenarios expect one between the IT and network agents

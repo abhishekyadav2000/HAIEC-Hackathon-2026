@@ -1,0 +1,16 @@
+CONTROL 7  Event recording coverage   run fault-1791211739-11dd2a
+VERDICT    NOT SATISFIED   9 of 10 declared events recorded (90% against 100% required); MISSING NEGOTIATION by network-resolution-agent; 0 of 28 gaps over 30,000 ms (largest 14,000 ms, ledger time is whole seconds)
+THRESHOLD  limit 1.0 | exception tolerance 0 | owner kushal | version c7-thresholds-v1 | frozen 2026-10-04T22:56:08Z | declared BEFORE the run (run started 2026-10-05T14:49:03Z)
+
+RECORDS BEHIND IT: 10 declared events for agents haiec-agent, it-resolution-agent, network-resolution-agent
+  event              agent                      ledger record
+  INTENT             haiec-agent                #1 (step 1, 2026-10-05T14:49:03Z)
+  INVOCATION         haiec-agent                #8 (step 2, 2026-10-05T14:49:09Z)
+  RESULT-INSPECTION  haiec-agent                #9 (step 3, 2026-10-05T14:49:09Z)
+  INTENT             it-resolution-agent        #10 (step 4, 2026-10-05T14:49:14Z)
+  INVOCATION         it-resolution-agent        #16 (step 5, 2026-10-05T14:49:32Z)
+  RESULT-INSPECTION  it-resolution-agent        #17 (step 6, 2026-10-05T14:49:32Z)
+  INTENT             network-resolution-agent   #18 (step 7, 2026-10-05T14:49:36Z)
+  INVOCATION         network-resolution-agent   #28 (step 8, 2026-10-05T14:49:44Z)
+  RESULT-INSPECTION  network-resolution-agent   #29 (step 9, 2026-10-05T14:49:44Z)
+  NEGOTIATION        network-resolution-agent   MISSING

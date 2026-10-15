@@ -1,0 +1,54 @@
+# register.yaml: our threshold document, in the organizers' format (scripts/starter/register.yaml).
+# One entry per control we took on (7, 16 and 9). Each states metric, limit, exception tolerance, owner, version and date, and mirrors the
+# policy frozen in HAIEC on system 44f861cf-9c09-43e5-9388-997b66649542 (frozen_at is the HAIEC freeze time; version_date is its date).
+# Do not backdate. The drill (python -m assurance.judge) reads its limits from this file; no threshold is stored in the tool.
+
+controls:
+  - control_id: "16"
+    name: "Per-run token spend cap"
+    metric: "sum(gen_ai.usage.input_tokens + gen_ai.usage.output_tokens) over every gateway model-call line (listener=llm, HTTP 2xx) of one run, where a run = one trace id (every call sends the run's traceparent)"
+    observation_limit: 40000
+    exception_tolerance: 0
+    measurement_basis: "gateway per-call log lines grouped by trace.id, cross-checked against the ledger's model-request-result usage (token counts agreed on every run we assessed). Baseline: 7 reference S1 runs, 33,048 to 42,886 tokens (median about 38,000). The cap sits inside that range so a normal run can pass and breach, as the organizers advise. Loops seen: 119,528 / 362,691 / 2,288,455 tokens"
+    owner: "kushal"
+    version: "c16-cap-v2"
+    version_date: "2026-10-05"
+    frozen_at: "2026-10-05T14:46:12Z"
+    haiec_policy_digest: "sha256:7e3d0063e89e62a2fe6225b5b7af4d0d2b2b017cb3a25c4abcc1be5ac2fc4635"
+    enforcement_point: "In the path: haiec-agent and haiec-network-agent check their own tokens and call count before every model call and refuse past the cap (429; a refusal is evidenced by run guard-test-1791212524). The guard caps ONE agent, not the run: three agents each under the cap can still pass it, so the per-run total is judged after the run by assurance.judge, assurance.auditor and the HAIEC Control Test. Platform backstop: the gateway's account-wide ceiling"
+
+  - control_id: "7"
+    name: "Event recording coverage"
+    metric: "recorded declared events / declared events per run (INTENT, INVOCATION, RESULT-INSPECTION for each of the three agents, plus the network agent's NEGOTIATION with the IT agent), and the share of gaps between consecutive recorded events over the gap limit"
+    observation_limit: 1.0
+    exception_tolerance: 0
+    max_gap_ms: 30000
+    gap_comparator: "LTE"
+    gap_tolerance_pct: 10
+    measurement_basis: "audit ledger records for the run's correlation id (/records?cid=), declared from the scenario and not from the telemetry judged. Gap rule frozen in HAIEC: 30,000 ms (LTE), 10% of gaps tolerated; the audit store writes whole seconds, so milliseconds cannot be judged. Largest gap in 8 reference runs: 7 to 180 s, typical 7 to 11 s. The NEGOTIATION event is declared against the network agent because it starts the exchange; the organizers' reference network agent does not record one (it writes the placeholder pending-live-negotiation)"
+    owner: "kushal"
+    version: "c7-thresholds-v1"
+    version_date: "2026-10-04"
+    frozen_at: "2026-10-04T22:56:08Z"
+    haiec_policy_digest: "sha256:71b406e2c0cc19934369d14ebbddc911dd292236425543be3d1ca29b4480a633"
+    enforcement_point: "In the path: record-before-act in haiec-agent and haiec-network-agent (no intent record and no model-request-intent record, no model call; the network agent records its negotiation proposal before sending it to the IT agent). The platform's evidence ledger refuses writes without the token. Coverage is judged after the run by assurance.judge, assurance.auditor and the HAIEC Control Test"
+
+  - control_id: "9"
+    name: "Drift in agent duration"
+    metric: "mean AgentCore InvokeAgentRuntime Duration (ms) per agent over the run's window (mean of the per-minute CloudWatch averages for the minutes the agent's ledger records span; a negotiation callback is not part of the window), against that agent's baseline. Every agent that took part needs a baseline, else NOT EVALUATED"
+    observation_limit: 100          # D: maximum relative degradation, percent: a window violates above baseline x (1 + D/100)
+    exception_tolerance: 0          # B9: share of violating windows allowed, percent
+    baseline_haiec_agent: 6563
+    baseline_haiec_network_agent: 7058
+    baseline_it_resolution_agent: 4716
+    measurement_basis: "CloudWatch AWS/Bedrock-AgentCore Duration per agent runtime. Baselines: 3 healthy S1 runs of haiec-agent -> it-resolution-agent -> haiec-network-agent (fault-1791273266-9848ff, -1791273383-67642a, -1791273499-47737c), mean of each agent's window means (scripts/measure_baseline9.py). THIN: 3 windows per agent (the organizers' chain baseline rests on 37). D=100 and B9=0 are our choice (about twice the baseline). The IT agent's baseline here (4,716 ms) is low because CloudWatch averages the IT agent's main invocation with the short negotiation callback of haiec-network-agent when both fall in the same minute (every run shows 2 invocations in that minute); it is only valid for this chain and only while the callback lands in the same minute; the organizers' agents have no baseline in this document, so a run of theirs gets NOT EVALUATED for control 9"
+    owner: "kushal"
+    version: "c9-duration-thresholds-haiec-v1"
+    version_date: "2026-10-06"
+    frozen_at: "2026-10-06T08:23:41Z"   # HAIEC freeze of policy 13c07652 (frozenAt 2026-10-06T08:23:41.254Z); replaces the local freeze made at 08:18:25Z
+    haiec_policy_id: "13c07652-30e1-46bf-855f-fb3cbde51dcf"
+    haiec_policy_digest: "sha256:bccd8c3c33f395932b641360bb5b6dece024b8e9326ee206af7db98a894d4fd3"
+    haiec_metric_profile_ref: "metric-profile:agentcore-invokeagentruntime-duration-haiec-chain@v1"
+    haiec_baseline_ref: "c9-baseline:c9-duration-baseline-haiec-chain@v1"
+    haiec_baseline_digest: "sha256:f8d77d66ec8ce2e965fba8023476e6dc3857482ea08387940d0dfca87c6f1a06"
+    enforcement_point: "judged after the run (assurance.judge, HAIEC Control Test); no in-path check"

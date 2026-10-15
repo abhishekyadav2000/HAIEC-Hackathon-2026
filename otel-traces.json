@@ -1,0 +1,98 @@
+{
+  "run_id": "fault-1791211739-11dd2a",
+  "note": "No dedicated OTEL trace backend on this platform build (the collector exports to debug only, see Module 8). This file carries the audit ledger's own correlated chain instead, joined on trace_id/action_id inside each record's detail.",
+  "records": [
+    {
+      "correlation_id": "fault-1791211739-11dd2a",
+      "step": 1,
+      "phase": "intent",
+      "actor": "haiec-agent",
+      "detail": "trace_id=84b691261b62489783b730177546551e customer analysis via governed model 'haiec-nemotron-super'; tool modaas-docs; guard cap=40000 max_calls=15",
+      "trace_id": "84b691261b62489783b730177546551e",
+      "action_id": "fault-1791211739-11dd2a-intent",
+      "ts": "2026-10-05T14:49:03Z",
+      "seq": 1791211743627
+    },
+    {
+      "correlation_id": "fault-1791211739-11dd2a",
+      "step": 2,
+      "phase": "invocation",
+      "actor": "haiec-agent",
+      "detail": "governed call via alias haiec-nemotron-super: http_status=200; calls=3 tokens=6264 estimated_calls=0",
+      "trace_id": "84b691261b62489783b730177546551e",
+      "action_id": "fault-1791211739-11dd2a-invocation",
+      "ts": "2026-10-05T14:49:09Z",
+      "seq": 1791211749478
+    },
+    {
+      "correlation_id": "fault-1791211739-11dd2a",
+      "step": 4,
+      "phase": "intent",
+      "actor": "it-resolution-agent",
+      "detail": "trace_id=0a72220e33cb449ba8fb757027b3edc2 it analysis via governed model 'nemotron-nano-9b'; tool runbook-lookup",
+      "trace_id": "0a72220e33cb449ba8fb757027b3edc2",
+      "ts": "2026-10-05T14:49:14Z",
+      "seq": 1791211754271
+    },
+    {
+      "correlation_id": "fault-1791211739-11dd2a",
+      "step": 5,
+      "phase": "invocation",
+      "actor": "it-resolution-agent",
+      "detail": "trace_id=0a72220e33cb449ba8fb757027b3edc2 governed call via alias nemotron-nano-9b: http_status=200",
+      "trace_id": "0a72220e33cb449ba8fb757027b3edc2",
+      "ts": "2026-10-05T14:49:32Z",
+      "seq": 1791211772421
+    },
+    {
+      "correlation_id": "fault-1791211739-11dd2a",
+      "step": 6,
+      "phase": "result-inspection",
+      "actor": "it-resolution-agent",
+      "detail": "disposition=auto-resolve, decision='- **Incident disposition**: Auto-resolved based on fault analysis and customer impact assessment.  \n- **Action taken**: Engaged IT resolution agent to investigate via runbook-lookup for network-specific details.  \n- **Network team request**: Provide insights on DU-DEN-12-A element status, packet loss root cause, and latency mitigation options.'",
+      "trace_id": "0a72220e33cb449ba8fb757027b3edc2",
+      "ts": "2026-10-05T14:49:32Z",
+      "seq": 1791211772432
+    },
+    {
+      "correlation_id": "fault-1791211739-11dd2a",
+      "step": 7,
+      "phase": "intent",
+      "actor": "network-resolution-agent",
+      "detail": "trace_id=f7ea1e7bc556456bbb70a89881e8422a network analysis via governed model 'nemotron-super-120b'; tool network-twin",
+      "trace_id": "f7ea1e7bc556456bbb70a89881e8422a",
+      "ts": "2026-10-05T14:49:36Z",
+      "seq": 1791211776791
+    },
+    {
+      "correlation_id": "fault-1791211739-11dd2a",
+      "step": 7.5,
+      "phase": "tool-invocation",
+      "actor": "network-resolution-agent",
+      "detail": "actor=network-resolution-agent tool=network-twin correlation_id=fault-1791211739-11dd2a trace_id=f7ea1e7bc556456bbb70a89881e8422a result_summary=- **Probable root cause:** Fronthaul degradation at SITE-DEN-12 (scenario S1-fronthaul-degradation) causing packet loss (4.2%) and latency (31ms p95) on DU-DEN-12-A, impacting 5G-SLICE-EDGE-04 service",
+      "trace_id": "f7ea1e7bc556456bbb70a89881e8422a",
+      "ts": "2026-10-05T14:49:44Z",
+      "seq": 1791211784812
+    },
+    {
+      "correlation_id": "fault-1791211739-11dd2a",
+      "step": 8,
+      "phase": "invocation",
+      "actor": "network-resolution-agent",
+      "detail": "trace_id=f7ea1e7bc556456bbb70a89881e8422a governed call via alias nemotron-super-120b: http_status=200",
+      "trace_id": "f7ea1e7bc556456bbb70a89881e8422a",
+      "ts": "2026-10-05T14:49:44Z",
+      "seq": 1791211784818
+    },
+    {
+      "correlation_id": "fault-1791211739-11dd2a",
+      "step": 9,
+      "phase": "result-inspection",
+      "actor": "network-resolution-agent",
+      "detail": "disposition=auto-resolve, decision='- **Probable root cause:** Fronthaul degradation at SITE-DEN-12 (scenario S1-fronthaul-degradation) causing packet loss (4.2%) and latency (31ms p95) on DU-DEN-12-A, impacting 5G-SLICE-EDGE-04 services for multiple enterprise customers.  \n- **Proposed resolution:** Investigate and repair fronthaul link (fiber/SFP) between DU-DEN-12-A and its associated RU; replace faulty components if optical power or errors are out of spec.  \n- **Risk of change:** Low\u2014physical layer repair does not alter configuration; risk limited to temporary service interruption during fiber reconnection or SFP swap (mitigate with maintenance window).' | negotiation_with_it=pending-live-negotiation",
+      "trace_id": "f7ea1e7bc556456bbb70a89881e8422a",
+      "ts": "2026-10-05T14:49:44Z",
+      "seq": 1791211784825
+    }
+  ]
+}

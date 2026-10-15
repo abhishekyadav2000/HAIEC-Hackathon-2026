@@ -1,0 +1,24 @@
+run id     : fault-1791211739-11dd2a
+output dir : /home/cooshal/projects/tools/tmforum-hackathon/realrun-out/submission-draft/evidence/runs/fault-1791211739-11dd2a
+region     : us-east-1
+
+1/6 tmf639.json — TMF639 Resource Inventory
+    15909 bytes
+2/6 cr-status.json — ModelConfig/ToolConfig/AgentConfig status+conditions
+    21 resources
+3/6 approvals.json — approval attestation annotations
+    21 CRs, 21 with an approver recorded
+4/6 gateway-log.json — gateway request/response records for fault-1791211739-11dd2a
+    30 matching line(s)
+5/6 registry.json — registry records (registryRecordId, approval status)
+    21 registered asset(s)
+6/6 otel-traces.json — audit ledger timeline for fault-1791211739-11dd2a (see note in the file if traces are unavailable)
+    9 record(s)
+
+wrote 6 files to /home/cooshal/projects/tools/tmforum-hackathon/realrun-out/submission-draft/evidence/runs/fault-1791211739-11dd2a:
+-rw-rw-r-- 1 cooshal cooshal   4325 Oct  6 11:22 /home/cooshal/projects/tools/tmforum-hackathon/realrun-out/submission-draft/evidence/runs/fault-1791211739-11dd2a/approvals.json
+-rw-rw-r-- 1 cooshal cooshal 312123 Oct  6 11:22 /home/cooshal/projects/tools/tmforum-hackathon/realrun-out/submission-draft/evidence/runs/fault-1791211739-11dd2a/cr-status.json
+-rw-rw-r-- 1 cooshal cooshal  43565 Oct  6 11:22 /home/cooshal/projects/tools/tmforum-hackathon/realrun-out/submission-draft/evidence/runs/fault-1791211739-11dd2a/gateway-log.json
+-rw-rw-r-- 1 cooshal cooshal   5124 Oct  6 11:22 /home/cooshal/projects/tools/tmforum-hackathon/realrun-out/submission-draft/evidence/runs/fault-1791211739-11dd2a/otel-traces.json
+-rw-rw-r-- 1 cooshal cooshal   4854 Oct  6 11:22 /home/cooshal/projects/tools/tmforum-hackathon/realrun-out/submission-draft/evidence/runs/fault-1791211739-11dd2a/registry.json
+-rw-rw-r-- 1 cooshal cooshal  15909 Oct  6 11:22 /home/cooshal/projects/tools/tmforum-hackathon/realrun-out/submission-draft/evidence/runs/fault-1791211739-11dd2a/tmf639.json

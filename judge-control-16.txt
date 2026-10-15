@@ -1,0 +1,16 @@
+CONTROL 16  Per-run token spend cap   run fault-1791211739-11dd2a
+VERDICT    SATISFIED   33,855 tokens against a limit of 40,000 (6,145 under)
+THRESHOLD  limit 40000 | exception tolerance 0 | owner kushal | version c16-cap-v2 | frozen 2026-10-05T14:46:12Z | declared BEFORE the run (run started 2026-10-05T14:49:03Z)
+
+RECORDS BEHIND IT: 9 executed gateway calls on trace 84b69126..
+   #  time (UTC)      agent                          in   out  gateway span      ledger action id
+   1  14:49:05.695642 haiec-agent                   795    32  2f76194d149fad62  e4c577a4-ef6c-46c2-8bda-3312c584108f
+   2  14:49:07.755770 haiec-agent                 1,988    31  c8786aae1a569cfc  ac7747b1-a7f0-4e3f-a88a-b838ef3de5de
+   3  14:49:09.460254 haiec-agent                 3,206   212  8cdcd1280ffa4cbb  e4a9d532-b076-4cac-bfe1-a439f72c73c5
+   4  14:49:16.512799 it-resolution-agent         3,493    57  2c51cc558af7be2b  83bd1f2b-00a0-49ab-bbf3-3c2af19859e7
+   5  14:49:32.393252 it-resolution-agent         7,541    75  b2da9af7291eb07f  d07e23b6-ee7c-4d83-b539-7e022976aa31
+   6  14:49:38.970199 network-resolution-agent    3,766    37  90d6ed4ba7345550  1b02f6bc-2038-454e-ad18-da5ab8678ea0
+   7  14:49:40.835017 network-resolution-agent    3,845    36  eed6694abe5b5ccc  45dbb297-52db-4c0b-9a74-d41fc8cbe8ed
+   8  14:49:42.638588 network-resolution-agent    3,994    35  d8867f51f669c626  5e60abb2-f4e6-4867-9747-0960783af8fd
+   9  14:49:44.795533 network-resolution-agent    4,544   168  b5723902ef43fbe6  b9626247-992e-462f-86e8-ca128991e1b1
+      total 33,855 tokens (agrees with the ledger-reported total)
